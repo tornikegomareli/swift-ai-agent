@@ -10,7 +10,15 @@ import Foundation
 @available(iOS 15.0, macOS 12.0, *)
 func main() async {
   let apiKey = "your-api-key"
-  let chat = Agent(apiKey: apiKey)
+  
+  let readFileTool = createReadFileTool()
+  let listFilesTool = createListFilesTool()
+  let findAndReadFile = createFindAndReadFileTool()
+
+  let chat = Agent(
+    apiKey: apiKey,
+    tools: [readFileTool, listFilesTool, findAndReadFile]
+  )
   await chat.start()
 }
 
