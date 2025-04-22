@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A simple client for interacting with the Anthropic API
+/// A simple client for interacting with the Anthropic API with tools support
 final public class AnthropicClient: Sendable {
   private let apiKey: String
   private let baseURL = "https://api.anthropic.com/v1"
@@ -25,11 +25,13 @@ final public class AnthropicClient: Sendable {
   ///   - model: The Claude model to use (e.g. "claude-3-7-sonnet-20250219")
   ///   - maxTokens: Maximum number of tokens to generate
   ///   - messages: Array of message objects representing the conversation
+  ///   - tools: Optional array of tools that Claude can use
   ///   - completion: Callback with result containing either the response or an error
   public func createMessage(
     model: String,
     maxTokens: Int,
     messages: [Message],
+    tools: [Tool]? = nil,
     completion: @escaping @Sendable (Result<MessageResponse, Error>) -> Void
   ) {
     let endpoint = "\(baseURL)/messages"
@@ -39,7 +41,7 @@ final public class AnthropicClient: Sendable {
       return
     }
     
-    let request = MessageRequest(model: model, maxTokens: maxTokens, messages: messages)
+    let request = MessageRequest(model: model, maxTokens: maxTokens, messages: messages, tools: tools)
     
     guard let jsonData = try? JSONEncoder().encode(request) else {
       completion(.failure(NSError(domain: "AnthropicClient", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to encode request"])))
@@ -90,12 +92,14 @@ final public class AnthropicClient: Sendable {
   ///   - model: The Claude model to use (e.g. "claude-3-7-sonnet-20250219")
   ///   - maxTokens: Maximum number of tokens to generate
   ///   - messages: Array of message objects representing the conversation
+  ///   - tools: Optional array of tools that Claude can use
   /// - Returns: The message response
   @available(iOS 15.0, macOS 12.0, *)
   public func createMessage(
     model: String,
     maxTokens: Int,
-    messages: [Message]
+    messages: [Message],
+    tools: [Tool]? = nil
   ) async throws -> MessageResponse {
     let endpoint = "\(baseURL)/messages"
     
@@ -103,7 +107,7 @@ final public class AnthropicClient: Sendable {
       throw NSError(domain: "AnthropicClient", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
     }
     
-    let request = MessageRequest(model: model, maxTokens: maxTokens, messages: messages)
+    let request = MessageRequest(model: model, maxTokens: maxTokens, messages: messages, tools: tools)
     let jsonData = try JSONEncoder().encode(request)
     
     var urlRequest = URLRequest(url: url)
@@ -120,6 +124,7 @@ final public class AnthropicClient: Sendable {
       throw NSError(domain: "AnthropicAPI", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorResponse.message])
     }
     
+    /// #Uncomment for debugging: printPrettyJSON(from: data)
     return try JSONDecoder().decode(MessageResponse.self, from: data)
   }
 }

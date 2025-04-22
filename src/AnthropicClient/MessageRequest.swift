@@ -6,14 +6,30 @@
 //
 
 /// Request model for creating a message
-public struct MessageRequest: Codable {
+struct MessageRequest: Codable {
   let model: String
-  let max_tokens: Int
+  let maxTokens: Int
   let messages: [Message]
+  let tools: [Tool]?
   
-  public init(model: String, maxTokens: Int, messages: [Message]) {
+  init(model: String, maxTokens: Int, messages: [Message], tools: [Tool]? = nil) {
     self.model = model
-    self.max_tokens = maxTokens
+    self.maxTokens = maxTokens
     self.messages = messages
+    self.tools = tools
   }
+  
+  enum CodingKeys: String, CodingKey {
+    case model
+    case maxTokens = "max_tokens"
+    case messages
+    case tools
+  }
+}
+
+/// Add content type to support tool calls
+public enum ContentType: String, Codable {
+  case text
+  case toolCall = "tool_use"
+  case toolResult = "tool_result"
 }
