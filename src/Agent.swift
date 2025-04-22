@@ -127,7 +127,8 @@ class Agent {
   }
   
   private func printClaudeResponse(_ text: String) {
-    print("\(claudeColor)Claude: \(text)\(TerminalColors.reset)")
+    print("\(claudeColor)Claude: \(TerminalColors.reset)", terminator: " ")
+    print(text)
   }
   
   private func printTokenInfo(_ inputTokens: Int, _ outputTokens: Int) {

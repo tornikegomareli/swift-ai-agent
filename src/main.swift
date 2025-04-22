@@ -14,7 +14,6 @@ func main() async {
   await chat.start()
 }
 
-// Run the application
 if #available(iOS 15.0, macOS 12.0, *) {
   Task {
     await main()
