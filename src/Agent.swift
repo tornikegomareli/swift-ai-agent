@@ -5,10 +5,6 @@
 //  Created by Tornike Gomareli on 23.04.25.
 //
 
-
-// Use the AnthropicClient from the previous example
-// Message and other types are assumed to be defined in the AnthropicClient class
-
 // Terminal chat application for continuous interaction with Claude
 @available(iOS 15.0, macOS 12.0, *)
 class Agent {
@@ -44,7 +40,7 @@ class Agent {
     printHelp()
     
     printDivider()
-
+    
     while true {
       printUserPrompt()
       guard let input = readLine(), input.lowercased() != "exit" else {
@@ -155,7 +151,7 @@ class Agent {
   }
   
   private func printColoredBanner() {
-    print("\(TerminalColors.bold)\(claudeColor)🤖 Claude Terminal\(TerminalColors.reset)")
+    print("\(TerminalColors.bold)\(claudeColor)🤖 Swift AI Agent \(TerminalColors.reset)")
     print("\(infoColor)Model: \(model)")
   }
   
