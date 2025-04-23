@@ -1,17 +1,21 @@
-//
-//  AnthropicClient.swift
-//  swift-ai-agent
-//
-//  Created by Tornike Gomareli on 23.04.25.
-//
-
+///
+/// A simple client for interacting with the Anthropic API with tools support
+///
+/// This client provides methods to send messages to the Anthropic Claude API
+/// and supports the tools API for agent capabilities.
+///
+/// Created by Tornike Gomareli on 23.04.25.
+///
 
 import Foundation
 
 /// A simple client for interacting with the Anthropic API with tools support
 final public class AnthropicClient: Sendable {
+  /// The API key used for authenticating with Anthropic's API
   private let apiKey: String
+  /// The base URL for Anthropic's API
   private let baseURL = "https://api.anthropic.com/v1"
+  /// The API version to use in requests
   private let apiVersion = "2023-06-01"
   
   /// Initialize the Anthropic client
@@ -124,7 +128,7 @@ final public class AnthropicClient: Sendable {
       throw NSError(domain: "AnthropicAPI", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: errorResponse.message])
     }
     
-    /// #Uncomment for debugging: printPrettyJSON(from: data)
+    // Uncomment for debugging: printPrettyJSON(from: data)
     return try JSONDecoder().decode(MessageResponse.self, from: data)
   }
 }
