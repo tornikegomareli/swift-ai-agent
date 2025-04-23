@@ -1,9 +1,8 @@
-//
-//  ClaudeTerminalChat.swift
-//  swift-ai-agent
-//
-//  Created by Tornike Gomareli on 23.04.25.
-//
+///
+/// Agent system that connects to the Anthropic Claude API and handles tool execution
+///
+/// Created by Tornike Gomareli on 23.04.25.
+///
 
 /// Function signature for tool implementation
 public typealias ToolFunction = (Dictionary<String, Any>) throws -> String
@@ -28,25 +27,49 @@ public struct ToolDefinition {
   }
 }
 
+/// Main Agent class that manages the conversation with Claude and tool execution
+/// 
+/// This class handles the conversation loop, processes messages between the user and
+/// Claude, and manages tool execution when Claude decides to use tools.
 @available(iOS 15.0, macOS 12.0, *)
-class Agent {
+public class Agent {
+  /// The Anthropic API client for interacting with Claude
   private let client: AnthropicClient
+  /// The Claude model to use for this agent
   private let model: String
+  /// Maximum number of tokens to generate in Claude responses
   private let maxTokens: Int
+  /// The conversation history between the user and Claude
   private var conversation: [Message] = []
+  /// Prefix used for displaying user messages in the terminal
   private let promptPrefix = "User: "
+  /// Prefix used for displaying Claude's responses in the terminal
   private let responsePrefix = "Claude: "
+  /// The tools available to Claude during the conversation
   private let tools: [ToolDefinition]
   
+  /// Color used for displaying user input in the terminal
   private let userColor: String
+  /// Color used for displaying Claude's responses in the terminal
   private let claudeColor: String
+  /// Color used for displaying token usage information in the terminal
   private let tokenInfoColor: String
+  /// Color used for displaying command information in the terminal
   private let commandColor: String
+  /// Color used for displaying error messages in the terminal
   private let errorColor: String
+  /// Color used for displaying general information in the terminal
   private let infoColor: String
+  /// Color used for displaying tool-related information in the terminal
   private let toolColor: String
   
-  init(apiKey: String,
+  /// Initialize a new Agent with the specified API key and optional parameters
+  /// - Parameters:
+  ///   - apiKey: Your Anthropic API key for accessing Claude
+  ///   - model: The Claude model to use. Defaults to "claude-3-7-sonnet-20250219"
+  ///   - maxTokens: Maximum number of tokens to generate in Claude responses. Defaults to 1024
+  ///   - tools: Array of tool definitions that Claude can use. Defaults to empty array
+  public init(apiKey: String,
        model: String = "claude-3-7-sonnet-20250219",
        maxTokens: Int = 1024,
        tools: [ToolDefinition] = []) {
@@ -64,7 +87,12 @@ class Agent {
     self.toolColor = TerminalColors.magenta
   }
   
-  func start() async {
+  /// Start the agent's conversation loop
+  /// 
+  /// This method begins the main conversation loop between the user and Claude.
+  /// It handles user input, sends messages to Claude, processes Claude's responses,
+  /// and manages tool execution when needed.
+  public func start() async {
     printColoredBanner()
     printHelp()
     
@@ -128,6 +156,11 @@ class Agent {
   }
   
   /// Handle tool calls from Claude
+  /// 
+  /// This method processes tool calls requested by Claude, executes the appropriate tools,
+  /// and sends the results back to Claude for final processing.
+  /// 
+  /// - Parameter response: The message response from Claude containing tool calls
   private func handleToolCalls(_ response: MessageResponse) async {
     // Display that Claude is using tools
     printInfo("Claude is using tools...")
@@ -201,6 +234,13 @@ class Agent {
     }
   }
   
+  /// Process special commands entered by the user
+  /// 
+  /// This method checks if the user input is a special command (prefixed with "/")
+  /// and handles it appropriately.
+  /// 
+  /// - Parameter input: The user input to check for commands
+  /// - Returns: `true` if the input was a command and was processed, `false` otherwise
   private func processCommand(_ input: String) -> Bool {
     let command = input.lowercased()
     
