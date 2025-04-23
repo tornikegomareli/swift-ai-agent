@@ -1,8 +1,20 @@
+///
+/// Read File Tool Implementation
+///
+/// This file contains the implementation of a tool that allows Claude to read
+/// files from the local file system at specified relative paths.
+///
+/// Created by Tornike Gomareli on 23.04.25.
+///
+
 import Foundation
 
-// Assuming ToolDefinition, SchemaProperty, ToolInputSchema structures exist as you defined them.
-
-/// Example of creating a ReadFile tool for the Agent - Reads a specific relative path.
+/// Creates a tool definition for reading files from the local file system
+/// 
+/// This tool allows Claude to request the content of a file at a specified
+/// relative path from the current working directory.
+/// 
+/// - Returns: A tool definition for reading files
 func createReadFileTool() -> ToolDefinition {
   let pathProperty = SchemaProperty(
     type: "string",
