@@ -1,5 +1,8 @@
 # Swift AI Agent
 
+![t-rec-ezgif com-optimize](https://github.com/user-attachments/assets/3b834572-c39f-4b31-931c-9a3ba75e5d15)
+
+
 A command-line interface (CLI) tool for interacting with the Anthropic Claude API, featuring a robust agent system with tool capabilities.
 
 
