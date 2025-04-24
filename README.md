@@ -2,9 +2,8 @@
 
 A command-line interface (CLI) tool for interacting with the Anthropic Claude API, featuring a robust agent system with tool capabilities.
 
-## Overview
 
-Swift AI Agent is a Swift-based terminal application that allows you to chat with Claude and enable it to perform actions in your environment using tools. It demonstrates how to build an agent system with the ability to use tools to interact with the local file system.
+Project is running inside terminal application and allows you to chat with Claude and enable it to perform actions in your environment using tools. It demonstrates how to build an agent system with the ability to use tools to interact with the local file system.
 
 ## Motivation
 
@@ -14,12 +13,10 @@ Key learning objectives:
 - Understanding how to structure an agent system
 - Implementing tool definitions and execution flows
 - Managing conversation context between the agent and the AI
-- Building a clean terminal UI for interaction
 
-## Features
+## Functionality
 
-- Interactive terminal-based chat with Claude
-- Colorized terminal output for better readability
+- Interactive terminal-based chat with Claude LLM
 - Tool execution capabilities:
   - Read files
   - List files and directories
@@ -34,7 +31,7 @@ Key learning objectives:
 
 ## Requirements
 
-- macOS 12.0+ (Monterey or later)
+- macOS 13.0+
 - Swift 6.0+
 - Anthropic API key
 
@@ -64,18 +61,13 @@ The project is organized into several components:
 - `AnthropicClient.swift`: Client for the Anthropic API with tools support
 - Various model files (`Message.swift`, `MessageContent.swift`, etc.) for API types
 
-### Tools Implementation
+### Tools
 
 - `read_file_tool.swift`: Tool for reading files
 - `list_files_tool.swift`: Tool for listing files in a directory
 - `find_and_read_file.swift`: Tool for finding and reading files
 - `edit_file_tool.swift`: Tool for editing existing files
 - `create_new_file_tool.swift`: Tool for creating new files
-
-### Helpers
-
-- `TerminalColors.swift`: Terminal color definitions for better UI
-- `pretty_print.swift`: Helper for pretty-printing JSON
 - `find_file_in_directory.swift`: File system search utilities
 
 ## Usage
@@ -89,14 +81,13 @@ Examples:
 - "Find and show me all .swift files in the project."
 - "Create a new file called 'test.txt' with 'Hello, world!' as its content."
 
-## Future Improvements
+## Some future Improvements
 
 - Add support for more tools (e.g., network requests, system information)
 - Implement streaming responses for better UX
 - Add authentication management for the API key
 - Support for multiple conversation sessions
-- Improve error handling and recovery
-- Add tests
+- Ask permission for changing or creating file
 
 ## License
 
